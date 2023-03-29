@@ -79,9 +79,8 @@ cluster.routing.allocation.disk.watermark.high: 2gb
 cluster.routing.allocation.disk.watermark.low: 5gb
 " >> $ES_FOLDER/config/elasticsearch.yml
 
-# Add empty files to plugins and logs because tycho-packaging-plugin removes empty directories
-# and elasticsearch will not start if plugins and logs directories are missing
-touch $ES_FOLDER/plugins/.keep
+# Add empty files to logs because tycho-packaging-plugin removes empty directories
+# and elasticsearch will not start if logs directory is missing
 touch $ES_FOLDER/logs/.keep
 
 # Zip the elasticsearch using zip docker image
