@@ -65,9 +65,19 @@ cp log4j2.properties $ES_FOLDER/config/
 
 # Add options to jvm.options
 echo "Adding options to jvm.options"
-echo "" >> $ES_FOLDER/config/jvm.options
-echo "-Xms1G" >> $ES_FOLDER/config/jvm.options
-echo "-Xmx1G" >> $ES_FOLDER/config/jvm.options
+echo "
+-Xms1G
+-Xmx1G
+" >> $ES_FOLDER/config/jvm.options
+
+# Add options to elasticsearch.yml
+echo "Adding options to elasticsearch.yml"
+echo "
+cluster.routing.allocation.disk.threshold_enabled: true
+cluster.routing.allocation.disk.watermark.flood_stage: 1gb
+cluster.routing.allocation.disk.watermark.high: 2gb
+cluster.routing.allocation.disk.watermark.low: 5gb
+" >> $ES_FOLDER/config/elasticsearch.yml
 
 
 # Zip the elasticsearch using zip docker image
