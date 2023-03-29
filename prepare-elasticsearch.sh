@@ -12,7 +12,7 @@ else
 fi
 
 # Check if zip and unzip are installed
-if ! [ -x "$(command -v zip)" ] && ! [ -x "$(command -v '7z')" ]; then
+if ! [ -x "$(command -v zip)" ]; then
   echo "Error: zip is not installed." >&2
   exit 1
 fi
@@ -25,6 +25,9 @@ fi
 ELASTICSEARCH_URL="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$ELASTICSEARCH_VERSION-no-jdk-windows-x86_64.zip"
 ES_FOLDER="elasticsearch-$ELASTICSEARCH_VERSION"
 
+# Delete made zip if exists
+rm -rf $ES_FOLDER*
+
 # Download the elasticsearch if zip file does not exist
 if [ ! -f "$ES_FOLDER-downloaded.zip" ]; then
   echo "Downloading elasticsearch"
@@ -33,9 +36,6 @@ fi
 
 # Unzip the elasticsearch using unzip docker image
 unzip $ES_FOLDER-downloaded.zip
-
-# Change owner of the elasticsearch folder
-sudo chown -R 1000:1000 $ES_FOLDER
 
 # Remove modules
 echo "Removing modules"
@@ -72,14 +72,10 @@ echo "-Xmx1G" >> $ES_FOLDER/config/jvm.options
 
 # Zip the elasticsearch using zip docker image
 echo "Zipping elasticsearch"
-if [ -x "$(command -v zip)" ]; then
-  zip -r $ES_FOLDER.zip $ES_FOLDER
-elif [ -x "$(command -v '7z')" ]; then
-  7z a $ES_FOLDER.zip $ES_FOLDER
-else
-  echo "Could not execute zip command" >&2
-  exit 1
-fi
+cd $ES_FOLDER
+zip -r $ES_FOLDER.zip *
+mv $ES_FOLDER.zip ..
+cd ..
 
 
 echo "Done preparing elasticsearch"
