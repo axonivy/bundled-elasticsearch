@@ -70,6 +70,9 @@ echo "
 -Xmx1G
 " >> $ES_FOLDER/config/jvm.options
 
+# Comment out -Xlog:gc. Stops elasticsearch from logging garbage collection
+sed -i '/-Xlog:gc/ s/^/# /' $ES_FOLDER/config/jvm.options
+
 # Add options to elasticsearch.yml
 echo "Adding options to elasticsearch.yml"
 echo "
