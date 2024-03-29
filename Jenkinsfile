@@ -1,4 +1,4 @@
-def elasticsearch_version = '7.17.16'
+def elasticsearch_version = '7.17.19'
 
 pipeline {
   agent any
