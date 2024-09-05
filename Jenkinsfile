@@ -1,4 +1,4 @@
-def elasticsearch_version = '7.17.19'
+def elasticsearch_version = '7.17.23'
 
 pipeline {
   agent any
@@ -33,7 +33,7 @@ pipeline {
       }
       steps {
         script {
-          docker.image("maven:3.9.6-eclipse-temurin-17").inside {
+          docker.image("maven:3.9.9-eclipse-temurin-21").inside {
             maven cmd: "deploy -Delasticsearch.version=${elasticsearch_version}"
           }
         }
