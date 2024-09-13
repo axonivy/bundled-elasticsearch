@@ -33,7 +33,7 @@ pipeline {
       }
       steps {
         script {
-          docker.image("maven:3.9.9-eclipse-temurin-21").inside {
+          docker.build("maven-build", "-f Dockerfile.maven .").inside {
             maven cmd: "deploy -Delasticsearch.version=${elasticsearch_version}"
           }
         }
